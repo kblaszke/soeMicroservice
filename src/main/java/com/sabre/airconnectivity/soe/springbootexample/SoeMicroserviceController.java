@@ -11,6 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RestController
 public class SoeMicroserviceController {
 
+    private static final int GREETING_DELAY = 10000;
+
     private final AtomicInteger soeGreetingCounter;
     private String name;
 
@@ -21,11 +23,12 @@ public class SoeMicroserviceController {
 
     @GetMapping("/")
     public List<String> mainPage() {
-        return Arrays.asList("http://localhost:8080/greeting");
+        return Arrays.asList("http://localhost:8080/greeting", "http://localhost:8081/actuator");
     }
 
     @GetMapping("/greeting")
-    public GreetingModel greeting() {
+    public GreetingModel greeting() throws InterruptedException {
+        Thread.sleep(GREETING_DELAY);
         return new GreetingModel(soeGreetingCounter.getAndIncrement(), name);
     }
 }
