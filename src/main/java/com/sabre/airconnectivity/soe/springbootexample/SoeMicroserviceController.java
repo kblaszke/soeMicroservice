@@ -11,6 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RestController
 public class SoeMicroserviceController {
 
+    private static final int GREETING_DELAY = 10000;
+
     private final AtomicInteger soeGreetingCounter;
     private String name;
 
@@ -25,7 +27,8 @@ public class SoeMicroserviceController {
     }
 
     @GetMapping("/greeting")
-    public GreetingModel greeting() {
+    public GreetingModel greeting() throws InterruptedException {
+        Thread.sleep(GREETING_DELAY);
         return new GreetingModel(soeGreetingCounter.getAndIncrement(), name);
     }
 }
