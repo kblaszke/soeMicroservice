@@ -1,10 +1,13 @@
 package com.sabre.airconnectivity.soe.springbootexample;
 
+
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -12,6 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SoeMicroserviceController {
 
     private static final int GREETING_DELAY = 10000;
+    private static final Logger LOGGER = LogManager.getLogger(SoeMicroserviceController.class);
 
     private final AtomicInteger soeGreetingCounter;
     private String name;
@@ -28,7 +32,10 @@ public class SoeMicroserviceController {
 
     @GetMapping("/greeting")
     public GreetingModel greeting() throws InterruptedException {
+        LOGGER.info("Got greeting request");
         Thread.sleep(GREETING_DELAY);
-        return new GreetingModel(soeGreetingCounter.getAndIncrement(), name);
+        GreetingModel greeting = new GreetingModel(soeGreetingCounter.getAndIncrement(), name);
+        LOGGER.info("return greeting");
+        return greeting;
     }
 }
