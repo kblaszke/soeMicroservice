@@ -21,7 +21,7 @@ public class SoeMicroserviceController {
 
     @GetMapping("/")
     public List<String> mainPage() {
-        return Arrays.asList("http://localhost:8080/greeting");
+        return Arrays.asList("http://localhost:8080/greeting", "http://localhost:8081/actuator");
     }
 
     @GetMapping("/greeting")
